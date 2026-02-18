@@ -61,7 +61,11 @@ Plans:
   2. CalibrationData.cameras returns a dict of CameraData objects; each CameraData exposes typed CameraIntrinsics, CameraExtrinsics, and InterfaceParams fields
   3. User can call compute_undistortion_maps(camera_data, image_size) and get a map pair usable with cv2.remap; maps are on the correct device
   4. User can call undistort_image(image, maps) and get an undistorted image tensor matching the source image shape
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — CameraData, CalibrationData dataclasses and load_calibration_data JSON loader
+- [ ] 03-02-PLAN.md — Undistortion map computation and image remapping with PyTorch tensor I/O
 
 ### Phase 4: I/O Layer
 **Goal**: Synchronized multi-camera frames are readable from video files and image directories via a common protocol
@@ -93,6 +97,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation and Physics Math | 3/3 | Complete | 2026-02-18 |
 | 2. Projection Protocol | 2/2 | Complete | 2026-02-18 |
-| 3. Calibration and Undistortion | 0/TBD | Not started | - |
+| 3. Calibration and Undistortion | 0/2 | In progress | - |
 | 4. I/O Layer | 0/TBD | Not started | - |
 | 5. Packaging and Release | 0/TBD | Not started | - |
