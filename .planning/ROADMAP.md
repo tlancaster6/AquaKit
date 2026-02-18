@@ -46,7 +46,11 @@ Plans:
   2. User can call back_project() on pixel coordinates and recover a 3D ray; the round-trip project → back_project residual f(r_p_final) is below convergence tolerance (not just |delta| < tol)
   3. RefractiveProjectionModel accepts batched inputs (N points, M cameras) and produces correctly shaped output tensors on both CPU and CUDA
   4. Any object satisfying the ProjectionModel protocol (typed.Protocol) type-checks correctly with basedpyright without importing RefractiveProjectionModel
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — ProjectionModel protocol, RefractiveProjectionModel class, and multi-camera helpers
+- [ ] 02-02-PLAN.md — Comprehensive tests for protocol compliance, convergence, and batched operations
 
 ### Phase 3: Calibration and Undistortion
 **Goal**: AquaCal calibration files load into typed Python objects and images can be undistorted without any AquaCal dependency
@@ -88,7 +92,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation and Physics Math | 3/3 | Complete | 2026-02-18 |
-| 2. Projection Protocol | 0/TBD | Not started | - |
+| 2. Projection Protocol | 0/2 | Not started | - |
 | 3. Calibration and Undistortion | 0/TBD | Not started | - |
 | 4. I/O Layer | 0/TBD | Not started | - |
 | 5. Packaging and Release | 0/TBD | Not started | - |
