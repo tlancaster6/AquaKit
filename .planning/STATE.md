@@ -71,5 +71,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-18
-Stopped at: Phase 1 complete, verified, ready for Phase 2
-Resume file: .planning/ROADMAP.md
+Stopped at: Phase 2 context gathered
+Resume file: .planning/phases/02-projection-protocol/02-CONTEXT.md
