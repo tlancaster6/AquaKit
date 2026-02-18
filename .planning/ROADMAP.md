@@ -30,7 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can call snells_law_3d with a ray and interface normal and get a correctly refracted ray satisfying Snell's law (verified against known sin-ratio values); total internal reflection returns a flag, not NaN
   4. User can triangulate a 3D point from batched rays and the result matches a known ground-truth position; point-to-ray distance reports correct reprojection error
   5. All geometry tests pass on both CPU and CUDA devices with parametrized device fixtures; no test uses a hardcoded .cuda() call or imports AquaCal/AquaMVS
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Types, interface, transforms, and test device fixture
+- [ ] 01-02-PLAN.md — Pinhole and fisheye camera models with create_camera() factory
+- [ ] 01-03-PLAN.md — Refraction (Snell's law, ray tracing, Newton-Raphson) and triangulation
 
 ### Phase 2: Projection Protocol
 **Goal**: The refractive projection protocol and Newton-Raphson back-projection are implemented, batched, and convergence-validated
@@ -82,7 +87,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Physics Math | 0/TBD | Not started | - |
+| 1. Foundation and Physics Math | 0/3 | Planning complete | - |
 | 2. Projection Protocol | 0/TBD | Not started | - |
 | 3. Calibration and Undistortion | 0/TBD | Not started | - |
 | 4. I/O Layer | 0/TBD | Not started | - |
