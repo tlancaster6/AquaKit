@@ -1,0 +1,165 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aquacore"
+version = "0.1.0"
+description = "Refractive multi-camera geometry foundation for the Aqua ecosystem"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Tucker Lancaster"}]
+keywords = [
+    "computer-vision",
+    "camera-geometry",
+    "refraction",
+    "multi-camera",
+    "triangulation",
+    "calibration",
+    "pytorch",
+    "3d-reconstruction",
+    "underwater",
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "torch>=2.0",
+    "opencv-python>=4.8",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+kornia = ["kornia>=0.7"]
+
+[project.urls]
+Homepage = "https://github.com/tlancaster6/aquacore"
+Documentation = "https://aquacore.readthedocs.io"
+Repository = "https://github.com/tlancaster6/aquacore"
+Issues = "https://github.com/tlancaster6/aquacore/issues"
+
+# Uncomment to add a CLI entry point:
+# [project.scripts]
+# aquacore = "aquacore.cli:main"
+
+[tool.hatch.build.targets.sdist]
+exclude = [".planning/", ".claude/", ".hooks/"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aquacore"]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "pre-commit",
+    "basedpyright",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest tests/ -m \"not slow\" {args}"
+test-all = "pytest tests/ {args}"
+lint = "ruff check src/ tests/ {args}"
+format = "ruff format src/ tests/ {args}"
+typecheck = "basedpyright src/ {args}"
+check = ["lint", "typecheck"]
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "sphinx>=6.2",
+    "furo",
+    "myst-parser",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "nbsphinx>=0.9.8",
+    "sphinxcontrib-mermaid",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "sphinx-build -W --keep-going -b html docs docs/_build/html"
+
+[tool.hatch.envs.release]
+dependencies = ["python-semantic-release", "build"]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = [".git", ".venv", "__pycache__", "build", "dist", "*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "I", "UP", "B", "SIM", "RUF", "PT"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.basedpyright]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+
+[tool.coverage.run]
+source = ["src/aquacore"]
+omit = ["*/tests/*", "*/test_*.py", "*/__pycache__/*"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+commit_message = "chore(release): {version}"
+build_command = "python -m build"
+tag_format = "v{version}"
+
+[tool.semantic_release.branches.main]
+match = "^main$"
+prerelease = false
+
+[tool.semantic_release.branches.dev]
+match = "^dev$"
+prerelease = true
+prerelease_token = "dev"
+
+[tool.semantic_release.changelog]
+changelog_file = "CHANGELOG.md"
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "refactor", "style", "test"]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+
+[tool.semantic_release.remote.token]
+env = "GH_TOKEN"

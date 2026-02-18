@@ -1,0 +1,50 @@
+name: Slow Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      python-version:
+        description: 'Python version to use'
+        required: false
+        default: '3.12'
+        type: choice
+        options:
+          - '3.11'
+          - '3.12'
+          - '3.13'
+      os:
+        description: 'Operating system to use'
+        required: false
+        default: 'ubuntu-latest'
+        type: choice
+        options:
+          - 'ubuntu-latest'
+          - 'windows-latest'
+
+jobs:
+  slow-tests:
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ inputs.python-version || '3.12' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version || '3.12' }}
+          cache: 'pip'
+
+      - name: Install Hatch
+        run: pip install hatch
+
+      - name: Create environment
+        run: hatch env create
+
+      - name: Run full test suite
+        run: hatch run test-all -- --cov --cov-report=xml --cov-report=term
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

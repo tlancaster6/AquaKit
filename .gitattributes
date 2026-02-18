@@ -1,0 +1,13 @@
+# Enforce LF line endings in the repo, auto-convert on checkout
+* text=auto eol=lf
+
+# Explicitly mark binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.whl binary
+*.gz binary
+*.zip binary

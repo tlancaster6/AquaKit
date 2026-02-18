@@ -1,0 +1,42 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.1
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^\.planning/
+      - id: end-of-file-fixer
+        exclude: ^\.planning/
+      - id: check-yaml
+        exclude: ^\.planning/
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+        exclude: ^\.planning/
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+
+  - repo: local
+    hooks:
+      - id: ruff-check-all
+        name: Ruff lint all files
+        entry: bash .hooks/pre-push-ruff-check.sh
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: ruff-format-check-all
+        name: Ruff format check all files
+        entry: bash .hooks/pre-push-ruff-format.sh
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
