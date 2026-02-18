@@ -20,7 +20,12 @@ AquaCore v1 extracts and unifies existing behavior from AquaCal and AquaMVS. The
 - AquaCal: `C:\Users\tucke\PycharmProjects\AquaCal`
 - AquaMVS: `C:\Users\tucke\PycharmProjects\AquaMVS`
 
-The researcher MUST examine both repos to extract existing conventions, patterns, and implementations before planning.
+**Pre-mapped reference docs (read these FIRST before exploring raw source):**
+- `.planning/research/aquacal-map.md` — AquaCal module layout, types, functions, conventions
+- `.planning/research/aquamvs-map.md` — AquaMVS module layout, types, functions, conventions
+- `.planning/research/shared-patterns.md` — Cross-repo comparison, inconsistencies, and resolution decisions
+
+The researcher should read these reference docs first, then dive into raw source only for details not covered.
 
 ### Camera Model API
 - Fisheye distortion model: OpenCV fisheye (k1-k4 equidistant model)
