@@ -5,13 +5,13 @@
 See: .planning/PROJECT.md (updated 2026-02-18)
 
 **Core value:** Correct, tested PyTorch implementations of refractive multi-camera geometry that all Aqua consumers share instead of duplicating.
-**Current focus:** Phase 2 - Projection Protocol
+**Current focus:** Phase 3 - Calibration and Undistortion
 
 ## Current Position
 
-Phase: 2 of 5 (Projection Protocol)
-Plan: 2 of 2 in current phase (complete)
-Status: Phase 2 complete
+Phase: 3 of 5 (Calibration and Undistortion)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
 Last activity: 2026-02-18 — Phase 2 complete (2/2 plans, verified)
 
 Progress: [████░░░░░░] 40%

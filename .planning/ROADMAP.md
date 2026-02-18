@@ -13,7 +13,7 @@ AquaCore is built in five phases that follow the natural dependency pyramid of t
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation and Physics Math** - Types, camera models, transforms, Snell's law, triangulation, and known-value tests (completed 2026-02-18)
-- [ ] **Phase 2: Projection Protocol** - ProjectionModel protocol and batched Newton-Raphson RefractiveProjectionModel
+- [x] **Phase 2: Projection Protocol** - ProjectionModel protocol and batched Newton-Raphson RefractiveProjectionModel (completed 2026-02-18)
 - [ ] **Phase 3: Calibration and Undistortion** - AquaCal JSON loader, CalibrationData, undistortion maps
 - [ ] **Phase 4: I/O Layer** - FrameSet protocol, VideoSet, ImageSet for synchronized multi-camera access
 - [ ] **Phase 5: Packaging and Release** - CI pipeline, PyPI publishing, rewiring guide
@@ -92,7 +92,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation and Physics Math | 3/3 | Complete | 2026-02-18 |
-| 2. Projection Protocol | 0/2 | Not started | - |
+| 2. Projection Protocol | 2/2 | Complete | 2026-02-18 |
 | 3. Calibration and Undistortion | 0/TBD | Not started | - |
 | 4. I/O Layer | 0/TBD | Not started | - |
 | 5. Packaging and Release | 0/TBD | Not started | - |
