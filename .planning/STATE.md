@@ -83,5 +83,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-18
-Stopped at: Completed 03-02-PLAN.md
-Resume file: .planning/phases/03-calibration-and-undistortion/03-02-SUMMARY.md
+Stopped at: Phase 4 context gathered
+Resume file: .planning/phases/04-i-o-layer/04-CONTEXT.md
