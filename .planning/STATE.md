@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-18)
 ## Current Position
 
 Phase: 2 of 5 (Projection Protocol)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-02-18 — Phase 1 complete (3/3 plans, verified)
+Plan: 2 of 2 in current phase (complete)
+Status: Phase 2 complete
+Last activity: 2026-02-18 — Phase 2 complete (2/2 plans, verified)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
@@ -28,6 +28,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation-and-physics-math | 3 | 65 min | 22 min |
+| 02-projection-protocol | 2 | ~10 min | ~5 min |
 
 **Recent Trend:**
 - Last 5 plans: 01-01 (25 min), 01-02 (30 min), 01-03 (10 min)
@@ -57,6 +58,9 @@ Recent decisions affecting current work:
 - [01-03]: TIR returns (zeros, False) per (output, valid_mask) pattern — consistent with AquaMVS; not None (AquaCal pattern)
 - [01-03]: refractive_project returns (N, 3) interface point — caller projects via camera model to get pixel (two-step, matches AquaMVS)
 - [01-03]: TRI-03 integration uses refractive_project to find Snell's-law-correct interface points — direct line-of-sight fails due to refraction bending
+- [02-02]: Round-trip test uses depth = (point_z - origin_z) / direction_z for reconstruction — no triangulation, single-model, fully deterministic
+- [02-02]: NR convergence validated via re-projection residual (project reconstructed point matches original pixels atol=1e-4) — avoids duplicating residual math in tests
+- [02-02]: Protocol compliance tests are device-agnostic (no device fixture) — isinstance() tests Python structure, not tensor math
 
 ### Pending Todos
 
@@ -71,5 +75,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-18
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-projection-protocol/02-CONTEXT.md
+Stopped at: Completed 02-02-PLAN.md (Phase 2 complete)
+Resume file: .planning/phases/02-projection-protocol/02-02-SUMMARY.md
