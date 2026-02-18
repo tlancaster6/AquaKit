@@ -75,5 +75,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-18
-Stopped at: Completed 02-02-PLAN.md (Phase 2 complete)
-Resume file: .planning/phases/02-projection-protocol/02-02-SUMMARY.md
+Stopped at: Phase 3 context gathered
+Resume file: .planning/phases/03-calibration-and-undistortion/03-CONTEXT.md
