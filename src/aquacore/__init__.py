@@ -4,6 +4,12 @@ from importlib.metadata import PackageNotFoundError, version
 
 from .camera import create_camera
 from .interface import ray_plane_intersection
+from .projection import (
+    ProjectionModel,
+    RefractiveProjectionModel,
+    back_project_multi,
+    project_multi,
+)
 from .refraction import (
     refractive_back_project,
     refractive_project,
@@ -35,14 +41,18 @@ __all__ = [
     "CameraIntrinsics",
     "InterfaceParams",
     "Mat3",
+    "ProjectionModel",
+    "RefractiveProjectionModel",
     "Vec2",
     "Vec3",
+    "back_project_multi",
     "camera_center",
     "compose_poses",
     "create_camera",
     "invert_pose",
     "matrix_to_rvec",
     "point_to_ray_distance",
+    "project_multi",
     "ray_plane_intersection",
     "refractive_back_project",
     "refractive_project",
