@@ -4,6 +4,13 @@ from importlib.metadata import PackageNotFoundError, version
 
 from .camera import create_camera
 from .interface import ray_plane_intersection
+from .refraction import (
+    refractive_back_project,
+    refractive_project,
+    snells_law_3d,
+    trace_ray_air_to_water,
+    trace_ray_water_to_air,
+)
 from .transforms import (
     camera_center,
     compose_poses,
@@ -11,6 +18,7 @@ from .transforms import (
     matrix_to_rvec,
     rvec_to_matrix,
 )
+from .triangulation import point_to_ray_distance, triangulate_rays
 from .types import (
     INTERFACE_NORMAL,
     CameraExtrinsics,
@@ -34,8 +42,15 @@ __all__ = [
     "create_camera",
     "invert_pose",
     "matrix_to_rvec",
+    "point_to_ray_distance",
     "ray_plane_intersection",
+    "refractive_back_project",
+    "refractive_project",
     "rvec_to_matrix",
+    "snells_law_3d",
+    "trace_ray_air_to_water",
+    "trace_ray_water_to_air",
+    "triangulate_rays",
 ]
 
 try:
