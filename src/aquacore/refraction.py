@@ -185,7 +185,9 @@ def refractive_project(
     the camera through P satisfies Snell's law at P and passes through the
     underwater target point Q.
 
-    Fixed iterations (not convergence-based) ensure deterministic autograd behavior.
+    Fixed iterations (not convergence-based) ensure deterministic computation
+    with no early-exit branches. Gradients flow through ``points`` but not
+    through ``camera_center`` (extracted as scalar for height computation).
 
     Args:
         points: Underwater 3D points in world frame, shape (N, 3), float32.

@@ -25,7 +25,7 @@ def _pinhole_intrinsics(device: torch.device) -> CameraIntrinsics:
             dtype=torch.float32,
             device=device,
         ),
-        dist_coeffs=torch.zeros(5, dtype=torch.float64),
+        dist_coeffs=torch.zeros(5, dtype=torch.float64, device=device),
         image_size=(640, 480),
         is_fisheye=False,
     )
@@ -39,7 +39,7 @@ def _fisheye_intrinsics(device: torch.device) -> CameraIntrinsics:
             dtype=torch.float32,
             device=device,
         ),
-        dist_coeffs=torch.zeros(4, dtype=torch.float64),
+        dist_coeffs=torch.zeros(4, dtype=torch.float64, device=device),
         image_size=(640, 480),
         is_fisheye=True,
     )
@@ -143,7 +143,9 @@ def test_pinhole_with_distortion(device: torch.device) -> None:
             dtype=torch.float32,
             device=device,
         ),
-        dist_coeffs=torch.tensor([-0.1, 0.0, 0.0, 0.0, 0.0], dtype=torch.float64),
+        dist_coeffs=torch.tensor(
+            [-0.1, 0.0, 0.0, 0.0, 0.0], dtype=torch.float64, device=device
+        ),
         image_size=(640, 480),
         is_fisheye=False,
     )
@@ -229,7 +231,7 @@ def test_create_camera_device_mismatch() -> None:
             dtype=torch.float32,
             device=cpu_device,
         ),
-        dist_coeffs=torch.zeros(5, dtype=torch.float64),
+        dist_coeffs=torch.zeros(5, dtype=torch.float64, device=cpu_device),
         image_size=(640, 480),
         is_fisheye=False,
     )
