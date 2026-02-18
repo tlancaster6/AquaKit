@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-18)
 ## Current Position
 
 Phase: 3 of 5 (Calibration and Undistortion)
-Plan: 1 of TBD in current phase
+Plan: 2 of TBD in current phase
 Status: In progress
-Last activity: 2026-02-18 — 03-01 complete (calibration loader + 25 tests)
+Last activity: 2026-02-18 — 03-02 complete (undistortion pipeline + 13 tests)
 
-Progress: [████░░░░░░] 40%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -36,6 +36,7 @@ Progress: [████░░░░░░] 40%
 
 *Updated after each plan completion*
 | Phase 03-calibration-and-undistortion P01 | 15 | 2 tasks | 3 files |
+| Phase 03-calibration-and-undistortion P02 | 15 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,9 @@ Recent decisions affecting current work:
 - [Phase 03-calibration-and-undistortion]: water_z stored in InterfaceParams (not separate CalibrationData field) - consistent with Phase 1 types
 - [Phase 03-calibration-and-undistortion]: Bad camera entries skipped with UserWarning (not crash) - resilient loading for partial calibrations
 - [Phase 03-calibration-and-undistortion]: No AquaCal dependency in calibration.py - only json, warnings, torch, pathlib; aquacore stays importable without AquaCal
+- [03-02]: Return raw (map_x, map_y) NumPy tuple from compute_undistortion_maps — no UndistortionData wrapper; minimal API surface
+- [03-02]: dist_coeffs reshaped to (4,1) for fisheye path — cv2.fisheye requires column vector; reshape is internal to undistortion.py
+- [03-02]: image_size from CameraIntrinsics (width, height) passed directly to OpenCV — both conventions match, no swap needed
 
 ### Pending Todos
 
@@ -79,5 +83,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-18
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-calibration-and-undistortion/03-01-SUMMARY.md
+Stopped at: Completed 03-02-PLAN.md
+Resume file: .planning/phases/03-calibration-and-undistortion/03-02-SUMMARY.md
