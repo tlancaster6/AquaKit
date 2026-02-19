@@ -76,7 +76,11 @@ Plans:
   2. User can construct an ImageSet from a list of image directories and iterate frames; frame tensors are float32 on the correct device
   3. Both VideoSet and ImageSet satisfy the FrameSet protocol; code written against FrameSet type-checks with either concrete class without modification
   4. Frame tensors returned from VideoSet and ImageSet are independent copies (no shared memory with OpenCV buffers that could be silently overwritten)
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — FrameSet protocol and ImageSet with synchronized image directory access
+- [ ] 04-02-PLAN.md — VideoSet, create_frameset factory, and public API exports
 
 ### Phase 5: Packaging and Release
 **Goal**: The library installs from PyPI, CI enforces quality on every push, and consumer teams have an import migration guide
@@ -98,5 +102,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation and Physics Math | 3/3 | Complete | 2026-02-18 |
 | 2. Projection Protocol | 2/2 | Complete | 2026-02-18 |
 | 3. Calibration and Undistortion | 0/2 | In progress | - |
-| 4. I/O Layer | 0/TBD | Not started | - |
+| 4. I/O Layer | 0/2 | Not started | - |
 | 5. Packaging and Release | 0/TBD | Not started | - |
