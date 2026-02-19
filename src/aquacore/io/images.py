@@ -77,9 +77,13 @@ class ImageSet:
             if not cam_dir.is_dir():
                 raise ValueError(f"Camera path is not a directory: {cam_dir}")
 
-            files: list[Path] = []
+            # Collect files, deduplicating by name to handle case-insensitive
+            # filesystems (e.g., Windows) where *.png and *.PNG match the same files.
+            seen: dict[str, Path] = {}
             for ext in _IMAGE_EXTENSIONS:
-                files.extend(cam_dir.glob(ext))
+                for f in cam_dir.glob(ext):
+                    seen.setdefault(f.name, f)
+            files = list(seen.values())
 
             if not files:
                 raise ValueError(
