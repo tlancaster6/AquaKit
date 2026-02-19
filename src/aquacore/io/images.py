@@ -1,4 +1,4 @@
-"""ImageSet implementation of the FrameSet protocol."""
+"""ImageSet implementation of the FrameSet protocol and create_frameset factory."""
 
 import logging
 import warnings
@@ -7,6 +7,8 @@ from pathlib import Path
 
 import cv2
 import torch
+
+from .video import VideoSet
 
 logger = logging.getLogger(__name__)
 
@@ -212,3 +214,68 @@ class ImageSet:
             exc_tb: Exception traceback, or ``None`` if no exception occurred.
         """
         pass  # No resources to release for image directory access.
+
+
+# ---------------------------------------------------------------------------
+# Factory function
+# ---------------------------------------------------------------------------
+
+_VIDEO_EXTENSIONS = {".mp4", ".avi", ".mkv", ".mov", ".wmv", ".flv"}
+
+
+def create_frameset(camera_map: dict[str, str | Path]) -> "ImageSet | VideoSet":
+    """Auto-detect input type and return the appropriate FrameSet implementation.
+
+    Inspects the paths in ``camera_map`` to determine whether they are image
+    directories or video files, then constructs and returns the matching
+    ``ImageSet`` or ``VideoSet``.
+
+    Detection rules (in order):
+
+    1. Empty map: raise ``ValueError``.
+    2. All paths are existing directories: return ``ImageSet(camera_map)``.
+    3. All paths are existing files: return ``VideoSet(camera_map)``.
+    4. Paths do not exist (mock/test paths): infer from extension —
+       all paths have a video extension → ``VideoSet``; otherwise → ``ImageSet``.
+    5. Mixed types (some dirs, some files): raise ``ValueError``.
+
+    Args:
+        camera_map: Mapping from camera name to path. May be directory paths
+            (for ``ImageSet``) or video file paths (for ``VideoSet``).
+
+    Returns:
+        An ``ImageSet`` if all paths are (or look like) image directories,
+        or a ``VideoSet`` if all paths are (or look like) video files.
+
+    Raises:
+        ValueError: If ``camera_map`` is empty or contains a mix of directory
+            and file paths.
+    """
+    if not camera_map:
+        raise ValueError("camera_map must not be empty")
+
+    paths = [Path(p) for p in camera_map.values()]
+
+    # Check whether paths exist on disk.
+    existing_dirs = [p for p in paths if p.is_dir()]
+    existing_files = [p for p in paths if p.is_file()]
+    total = len(paths)
+
+    if len(existing_dirs) == total:
+        return ImageSet(camera_map)
+
+    if len(existing_files) == total:
+        return VideoSet(camera_map)
+
+    # Paths do not exist — infer from extension.
+    if len(existing_dirs) == 0 and len(existing_files) == 0:
+        extensions = {p.suffix.lower() for p in paths}
+        if extensions and extensions.issubset(_VIDEO_EXTENSIONS):
+            return VideoSet(camera_map)
+        return ImageSet(camera_map)
+
+    # Mixed types: some exist as dirs, some as files, or other combinations.
+    raise ValueError(
+        "camera_map contains a mix of directory and file paths. "
+        "All paths must be either directories (ImageSet) or video files (VideoSet)."
+    )

@@ -5,6 +5,7 @@ from importlib.metadata import PackageNotFoundError, version
 from .calibration import CalibrationData, CameraData, load_calibration_data
 from .camera import create_camera
 from .interface import ray_plane_intersection
+from .io import FrameSet, ImageSet, VideoSet, create_frameset
 from .projection import (
     ProjectionModel,
     RefractiveProjectionModel,
@@ -43,17 +44,21 @@ __all__ = [
     "CameraData",
     "CameraExtrinsics",
     "CameraIntrinsics",
+    "FrameSet",
+    "ImageSet",
     "InterfaceParams",
     "Mat3",
     "ProjectionModel",
     "RefractiveProjectionModel",
     "Vec2",
     "Vec3",
+    "VideoSet",
     "back_project_multi",
     "camera_center",
     "compose_poses",
     "compute_undistortion_maps",
     "create_camera",
+    "create_frameset",
     "invert_pose",
     "load_calibration_data",
     "matrix_to_rvec",
