@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-18)
 ## Current Position
 
 Phase: 4 of 5 (I/O Layer)
-Plan: 1 of TBD in current phase
-Status: In progress
-Last activity: 2026-02-18 — 04-01 complete (FrameSet Protocol + ImageSet + 15 tests)
+Plan: 2 of 2 in current phase (COMPLETE)
+Status: Phase 4 complete
+Last activity: 2026-02-19 — 04-02 complete (VideoSet + create_frameset + 19 tests, 226 total)
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 60%
 
 ## Performance Metrics
 
@@ -38,6 +38,7 @@ Progress: [█████░░░░░] 50%
 | Phase 03-calibration-and-undistortion P01 | 15 | 2 tasks | 3 files |
 | Phase 03-calibration-and-undistortion P02 | 15 | 2 tasks | 3 files |
 | Phase 04-i-o-layer P01 | 25 | 2 tasks | 5 files |
+| Phase 04-i-o-layer P02 | 6 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,9 @@ Recent decisions affecting current work:
 - [Phase 04-i-o-layer]: FrameSet is runtime_checkable Protocol with 5 methods; ImageSet does NOT inherit — structural typing only
 - [Phase 04-i-o-layer]: BGR-to-RGB: bgr[..., ::-1].copy() required before torch.from_numpy (negative stride incompatible)
 - [Phase 04-i-o-layer]: Glob deduplication via seen-dict by filename: prevents double-counting on case-insensitive filesystems (Windows)
+- [Phase 04-i-o-layer]: VideoSet does NOT inherit from FrameSet: structural typing only (same as ImageSet)
+- [Phase 04-i-o-layer]: VideoSet __iter__ resets all captures to frame 0 at start: guarantees frame-exact sequential read
+- [Phase 04-i-o-layer]: create_frameset uses filesystem existence check first, then extension inference for nonexistent paths
 
 ### Pending Todos
 
@@ -86,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-18
-Stopped at: Completed 04-01-PLAN.md (FrameSet + ImageSet)
-Resume file: .planning/phases/04-i-o-layer/04-02-PLAN.md
+Last session: 2026-02-19
+Stopped at: Completed 04-02-PLAN.md (VideoSet + create_frameset + 19 tests) — Phase 4 complete
+Resume file: Next phase plan (Phase 5 if applicable)
