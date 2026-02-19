@@ -90,7 +90,12 @@ Plans:
   1. Every push triggers a GitHub Actions workflow that runs ruff lint, basedpyright typecheck, and pytest on all supported platforms and Python versions; failures block merge
   2. A version tag triggers the PyPI trusted publishing workflow and the package appears on PyPI installable via pip install aquacore
   3. The rewiring guide lists every old AquaCal/AquaMVS import alongside its replacement aquacore import; a developer can migrate a file by find-and-replace using the table
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Bump basedpyright to standard strictness and validate CI workflows
+- [ ] 05-02-PLAN.md — Configure GitHub repo settings and PyPI trusted publishing (checkpoint)
+- [ ] 05-03-PLAN.md — Write the AquaCal/AquaMVS rewiring guide
 
 ## Progress
 
@@ -103,4 +108,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Projection Protocol | 2/2 | Complete | 2026-02-18 |
 | 3. Calibration and Undistortion | 0/2 | In progress | - |
 | 4. I/O Layer | 0/2 | Not started | - |
-| 5. Packaging and Release | 0/TBD | Not started | - |
+| 5. Packaging and Release | 0/3 | Not started | - |
