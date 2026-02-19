@@ -4,7 +4,7 @@ from typing import Any
 
 import torch
 
-from ..refraction import refractive_project
+from ..refraction import refractive_project, snells_law_3d
 from ..types import InterfaceParams
 
 
@@ -176,7 +176,7 @@ class RefractiveProjectionModel:
 
         Converts pixels to camera-frame rays via K_inv, rotates to world
         frame, intersects with the water surface at Z=water_z, then applies
-        Snell's law (air-to-water) inline to compute refracted directions.
+        Snell's law via snells_law_3d to compute refracted directions.
 
         Air-to-water refraction cannot produce total internal reflection
         (n_air < n_water always), so no validity mask is returned.
@@ -205,17 +205,9 @@ class RefractiveProjectionModel:
         t_param = (self.water_z - self.C[2]) / rays_world[:, 2]  # (N,)
         origins = self.C.unsqueeze(0) + t_param.unsqueeze(-1) * rays_world  # (N, 3)
 
-        # Snell's law: air-to-water refraction (inline, AquaMVS pattern)
-        # normal points from water toward air ([0, 0, -1]); negate for transmission
-        cos_i = -(rays_world * self.normal).sum(dim=-1)  # (N,)
-        n_oriented = -self.normal.unsqueeze(0)  # (1, 3) — points into water
-        sin_t_sq = self.n_ratio**2 * (1.0 - cos_i**2)  # (N,)
-        cos_t = torch.sqrt(torch.clamp(1.0 - sin_t_sq, min=0.0))  # (N,)
-        directions = (
-            self.n_ratio * rays_world
-            + (cos_t - self.n_ratio * cos_i).unsqueeze(-1) * n_oriented
-        )  # (N, 3)
-        directions = directions / torch.linalg.norm(directions, dim=-1, keepdim=True)
+        # Snell's law: air-to-water refraction via canonical snells_law_3d
+        # Air-to-water cannot produce TIR (n_air < n_water), so mask is unused
+        directions, _ = snells_law_3d(rays_world, self.normal, self.n_ratio)
 
         return origins, directions
 
