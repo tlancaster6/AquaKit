@@ -17,6 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 3: Calibration and Undistortion** - AquaCal JSON loader, CalibrationData, undistortion maps
 - [ ] **Phase 4: I/O Layer** - FrameSet protocol, VideoSet, ImageSet for synchronized multi-camera access
 - [ ] **Phase 5: Packaging and Release** - CI pipeline, PyPI publishing, rewiring guide
+- [ ] **Phase 6: Release Infrastructure Setup** - GitHub branch protection, PyPI trusted publishing, end-to-end publish validation (GAP CLOSURE)
+- [ ] **Phase 7: Tech Debt Cleanup** - README PyTorch install note, inline Snell's law dedup, empty test directory cleanup (GAP CLOSURE)
 
 ## Phase Details
 
@@ -97,10 +99,41 @@ Plans:
 - [ ] 05-02-PLAN.md — Configure GitHub repo settings and PyPI trusted publishing (checkpoint)
 - [ ] 05-03-PLAN.md — Write the AquaCal/AquaMVS rewiring guide
 
+### Phase 6: Release Infrastructure Setup
+**Goal**: GitHub and PyPI are configured so that CI blocks bad merges and version tags publish to PyPI automatically
+**Depends on**: Phase 5
+**Requirements**: QA-03 (partial fix), QA-04
+**Gap Closure**: Closes audit gaps from v1-MILESTONE-AUDIT.md
+**Success Criteria** (what must be TRUE):
+  1. Branch protection on `main` requires passing status checks (test, lint, typecheck) before merge
+  2. `RELEASE_TOKEN` secret exists and semantic-release can create GitHub releases
+  3. `pypi` and `testpypi` GitHub environments are configured with deployment protection
+  4. PyPI trusted publisher is configured for the `aquakit` package from this repository
+  5. A test version tag triggers the publish workflow and the package appears on PyPI/TestPyPI
+**Plans:** 1 plan
+**Type:** Human-action checkpoint (no code changes)
+
+Plans:
+- [ ] 06-01-PLAN.md — Complete GitHub repo configuration and PyPI trusted publishing setup
+
+### Phase 7: Tech Debt Cleanup
+**Goal**: Address low-severity tech debt items flagged by the milestone audit
+**Depends on**: Phase 5
+**Requirements**: None (tech debt, not requirements)
+**Gap Closure**: Addresses tech debt from v1-MILESTONE-AUDIT.md
+**Success Criteria** (what must be TRUE):
+  1. README Quick Start section mentions installing PyTorch as a prerequisite
+  2. RefractiveProjectionModel.back_project calls snells_law_3d instead of inline Snell's law copy
+  3. Empty tests/e2e/ and tests/integration/ directories are either populated with meaningful tests or removed
+**Plans:** 1 plan
+
+Plans:
+- [ ] 07-01-PLAN.md — README PyTorch note, Snell's law dedup, empty test directory cleanup
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -109,3 +142,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Calibration and Undistortion | 0/2 | In progress | - |
 | 4. I/O Layer | 0/2 | Not started | - |
 | 5. Packaging and Release | 0/3 | Not started | - |
+| 6. Release Infrastructure Setup | 0/1 | Not started | - |
+| 7. Tech Debt Cleanup | 0/1 | Not started | - |

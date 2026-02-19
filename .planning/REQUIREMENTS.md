@@ -154,8 +154,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | IO-02 | Phase 4 | Pending |
 | IO-03 | Phase 4 | Pending |
 | IO-04 | Phase 4 | Pending |
-| QA-03 | Phase 5 | Pending |
-| QA-04 | Phase 5 | Pending |
+| QA-03 | Phase 5 + 6 | Pending |
+| QA-04 | Phase 5 + 6 | Pending |
 | QA-05 | Phase 5 | Pending |
 
 **Coverage:**
