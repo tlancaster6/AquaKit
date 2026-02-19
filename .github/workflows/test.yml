@@ -31,6 +31,9 @@ jobs:
       - name: Install Hatch
         run: pip install hatch
 
+      - name: Install PyTorch (CPU)
+        run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
       - name: Create environment
         run: hatch env create
 
@@ -56,6 +59,9 @@ jobs:
 
       - name: Install Hatch
         run: pip install hatch
+
+      - name: Install PyTorch (CPU)
+        run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
       - name: Run type checker
         run: hatch run typecheck
