@@ -5,87 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-02-18)
 
 **Core value:** Correct, tested PyTorch implementations of refractive multi-camera geometry that all Aqua consumers share instead of duplicating.
-**Current focus:** Phase 6 - Tech Debt Cleanup
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 6 of 6 (Tech Debt Cleanup)
-Plan: 1 of 1 in current phase (COMPLETE)
-Status: Phase 6 complete - all tech debt items resolved
-Last activity: 2026-02-18 — 06-01 complete (README PyTorch note, Snell's law dedup, empty dir cleanup)
+Phase: v1.0 complete (6 phases, 13 plans)
+Status: Milestone v1.0 MVP shipped
+Last activity: 2026-02-18 — v1.0 milestone archived
 
-Progress: [██████████] 100%
-
-## Performance Metrics
-
-**Velocity:**
-- Total plans completed: 6 (phases 1-4) + 2 (phase 5 auto-plans)
-- Average duration: ~20 min
-- Total execution time: ~2.5 hours
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01-foundation-and-physics-math | 3 | 65 min | 22 min |
-| 02-projection-protocol | 2 | ~10 min | ~5 min |
-
-**Recent Trend:**
-- Last 5 plans: 01-01 (25 min), 01-02 (30 min), 01-03 (10 min)
-- Trend: stable to fast (03 was implementation-heavy but well-researched)
-
-*Updated after each plan completion*
-| Phase 03-calibration-and-undistortion P01 | 15 | 2 tasks | 3 files |
-| Phase 03-calibration-and-undistortion P02 | 15 | 2 tasks | 3 files |
-| Phase 04-i-o-layer P01 | 25 | 2 tasks | 5 files |
-| Phase 04-i-o-layer P02 | 6 | 2 tasks | 7 files |
-| Phase 05-packaging-and-release P01 | 20 | 2 tasks | 2 files |
-| Phase 05-packaging-and-release P03 | 20 | 2 tasks | 1 file |
-| Phase 05-packaging-and-release P01 | 5 | 2 tasks | 3 files |
-| Phase 06-tech-debt-cleanup P01 | 5 | 2 tasks | 2 files |
+Progress: [██████████] 100% (v1.0)
 
 ## Accumulated Context
 
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- [Init]: PyTorch-first, no NumPy math — one implementation, no duplication
-- [Init]: Standalone tests only (no AquaCal oracle) — known-value tests, no test-time coupling
-- [Init]: Datasets deferred to v2 — keeps v1 focused on geometry foundation
-- [Init]: Rewiring guide, not rewiring — AquaKit ships independently
-- [01-01]: Pure-PyTorch Rodrigues (not cv2.Rodrigues) — device-agnostic, autograd-compatible, handles theta=0 and theta=pi edge cases
-- [01-01]: dist_coeffs stored as float64 (OpenCV requirement); K as float32 (AquaMVS convention)
-- [01-01]: (output, valid_mask) return pattern for functions that can fail on individual elements (no NaN, no None)
-- [01-01]: conftest.py at tests/ root (not tests/unit/) — shared by all test subdirectories
-- [01-02]: OpenCV boundary: always cpu().numpy() before cv2 calls, .to(device) after — documented as non-differentiable in class docstrings
-- [01-02]: atan2(|cross|, dot) for round-trip angle tests — float32 acos gives ~4.88e-4 rad noise near 1.0 even for bit-identical rays; atan2 returns exact 0.0
-- [01-02]: create_camera() is sole public constructor — _PinholeCamera/_FisheyeCamera prefixed _ and not re-exported
-- [01-03]: snells_law_3d orients normal internally by checking sign of cos_i — callers do not pre-orient for air→water vs water→air
-- [01-03]: TIR returns (zeros, False) per (output, valid_mask) pattern — consistent with AquaMVS; not None (AquaCal pattern)
-- [01-03]: refractive_project returns (N, 3) interface point — caller projects via camera model to get pixel (two-step, matches AquaMVS)
-- [01-03]: TRI-03 integration uses refractive_project to find Snell's-law-correct interface points — direct line-of-sight fails due to refraction bending
-- [02-02]: Round-trip test uses depth = (point_z - origin_z) / direction_z for reconstruction — no triangulation, single-model, fully deterministic
-- [02-02]: NR convergence validated via re-projection residual (project reconstructed point matches original pixels atol=1e-4) — avoids duplicating residual math in tests
-- [02-02]: Protocol compliance tests are device-agnostic (no device fixture) — isinstance() tests Python structure, not tensor math
-- [Phase 03-calibration-and-undistortion]: water_z stored in InterfaceParams (not separate CalibrationData field) - consistent with Phase 1 types
-- [Phase 03-calibration-and-undistortion]: Bad camera entries skipped with UserWarning (not crash) - resilient loading for partial calibrations
-- [Phase 03-calibration-and-undistortion]: No AquaCal dependency in calibration.py - only json, warnings, torch, pathlib; aquakit stays importable without AquaCal
-- [03-02]: Return raw (map_x, map_y) NumPy tuple from compute_undistortion_maps — no UndistortionData wrapper; minimal API surface
-- [03-02]: dist_coeffs reshaped to (4,1) for fisheye path — cv2.fisheye requires column vector; reshape is internal to undistortion.py
-- [03-02]: image_size from CameraIntrinsics (width, height) passed directly to OpenCV — both conventions match, no swap needed
-- [Phase 04-i-o-layer]: FrameSet is runtime_checkable Protocol with 5 methods; ImageSet does NOT inherit — structural typing only
-- [Phase 04-i-o-layer]: BGR-to-RGB: bgr[..., ::-1].copy() required before torch.from_numpy (negative stride incompatible)
-- [Phase 04-i-o-layer]: Glob deduplication via seen-dict by filename: prevents double-counting on case-insensitive filesystems (Windows)
-- [Phase 04-i-o-layer]: VideoSet does NOT inherit from FrameSet: structural typing only (same as ImageSet)
-- [Phase 04-i-o-layer]: VideoSet __iter__ resets all captures to frame 0 at start: guarantees frame-exact sequential read
-- [Phase 04-i-o-layer]: create_frameset uses filesystem existence check first, then extension inference for nonexistent paths
-- [05-03]: Rewiring guide structured by consumer (AquaCal section / AquaMVS section) — allows each team to navigate directly to their section
-- [05-03]: AquaMVS section has no Signature Changes subsection — all 8 AquaMVS ports are pure path migrations (identical signatures)
-- [05-03]: Deprecated AquaCal shims (refractive_project_fast, refractive_project_fast_batch) listed as "removed" in guide — explicitly flags removal
-- [Phase 05-packaging-and-release]: basedpyright standard mode: 0 errors with no source changes needed - existing codebase already compliant
-- [Phase 05-packaging-and-release]: PyTorch installed into hatch env via hatch run pip install (not system pip) - hatch venvs are isolated and don't inherit system packages
+Full decision history archived in phase SUMMARY.md files.
 
 ### Pending Todos
 
@@ -93,13 +28,11 @@ None.
 
 ### Blockers/Concerns
 
-- [Phase 1]: CUDA CI runner availability must be confirmed; device-mismatch and autograd pitfalls only surface reliably on CUDA
-- [Phase 1]: Glass thickness parameter resolved — simplified air-to-water model chosen (no glass layer)
-- [RESOLVED - 03-01]: AquaCal JSON schema field names, shape variants (t: (3,) vs (3,1)), and optional fields — resolved by implementing load_calibration_data with backward compat and shape normalization
-- [05-02 - HUMAN ACTION REQUIRED]: Plan 05-02 requires GitHub repository configuration (branch protection, Codecov token, PyPI trusted publisher). See .planning/phases/05-packaging-and-release/05-02-PLAN.md for required manual steps.
+None — all v1.0 blockers resolved.
 
 ## Session Continuity
 
 Last session: 2026-02-18
-Stopped at: Completed 06-01-PLAN.md (tech debt cleanup - all items resolved)
-Resume file: None (all phases complete)
+Stopped at: v1.0 milestone archived
+Resume file: None
+Next step: /gsd:new-milestone
